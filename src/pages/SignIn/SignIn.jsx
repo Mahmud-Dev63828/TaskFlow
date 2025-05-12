@@ -36,13 +36,13 @@ export default function SignIn() {
       .then((userInfo) => {
         const { user } = userInfo;
 
-        const userdb = ref(db, "users/");
-        set(push(userdb), {
-          userid: user?.uid,
-          username: user?.displayName || "name missing",
-          email: user?.email || "email missing",
+        const userRef = ref(db, `users/${auth.currentUser.uid}`);
+        set(userRef, {
+          userid: auth.currentUser.uid,
+          username: auth.currentUser.displayName || fullName,
+          email: auth.currentUser.email || email,
           profile_picture:
-            user?.photoURL ||
+            auth.currentUser.photoURL ||
             `https://images.pexels.com/photos/6940512/pexels-photo-6940512.jpeg?auto=compress&cs=tinysrgb&w=600`,
         });
       })
